@@ -5,7 +5,7 @@ import { color } from "../../utils/colors";
 export const StyledLoginPage = styled.div`
   width: 100dvw;
   height: 100dvh;
-  background-color: white;
+  background-color: ${color.white};
   display: flex;
   align-items: center;
   justify-content: center;
