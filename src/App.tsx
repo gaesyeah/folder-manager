@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import FoldersPage from "./pages/FoldersPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import FoldersPage from "./pages/FoldersPage/FoldersPage";
 import { route } from "./utils/routes";
 
 function App() {

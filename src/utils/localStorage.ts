@@ -1,4 +1,3 @@
 export const key = {
-  userName: "userName",
-  token: "token",
+  userData: "userData",
 };
