@@ -5,6 +5,7 @@ import { key } from "../../utils/localStorage";
 import { token } from "../../vite-env";
 import { useNavigate } from "react-router-dom";
 import { route } from "../../utils/routes";
+import Swal from "sweetalert2";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -40,9 +41,14 @@ const LoginPage = () => {
 
       navigate(route.folders);
     } catch (err: unknown) {
-      const { message } = err as AxiosError;
+      const { message, code } = err as AxiosError;
       setIsLoading(false);
-      alert(`Ouve um erro, tente novamente por favor: \n${message}`);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Ocorreu algum erro, tente novamente por favor",
+      });
+      console.log(message, code);
     }
   };
 
