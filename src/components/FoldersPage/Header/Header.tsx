@@ -1,14 +1,12 @@
 import Swal from "sweetalert2";
 import { key } from "../../../utils/localStorage";
-import { UserData } from "../../../vite-env";
 import { LogOutIcon, StyledHeader } from "./styles";
 import { color } from "../../../utils/colors";
+import { useContext } from "react";
+import GlobalContext from "../../../contexts/globalContext";
 
 const Header = () => {
-  const userDataString = localStorage.getItem(key.userData);
-  const userData: UserData | null = userDataString
-    ? JSON.parse(userDataString)
-    : null;
+  const { userData } = useContext(GlobalContext) ?? {};
 
   const handleLogOut = () => {
     Swal.fire({

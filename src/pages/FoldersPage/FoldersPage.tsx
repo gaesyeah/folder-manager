@@ -4,6 +4,7 @@ import { key } from "../../utils/localStorage";
 import { route } from "../../utils/routes";
 import { StyledFoldersPage } from "./styles";
 import Header from "../../components/FoldersPage/Header/Header";
+import Folders from "../../components/FoldersPage/Folders/Folders";
 
 const FoldersPage = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const FoldersPage = () => {
   return (
     <StyledFoldersPage>
       <Header />
+      <Folders />
     </StyledFoldersPage>
   );
 };

@@ -1,4 +1,4 @@
 export const route = {
-  folders: "/",
+  folders: "/folders",
   login: "/login",
 };

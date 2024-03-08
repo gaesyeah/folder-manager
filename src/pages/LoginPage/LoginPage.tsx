@@ -1,14 +1,16 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { LoginContainer, StyledLoginPage } from "./styles";
 import axios, { AxiosError } from "axios";
 import { key } from "../../utils/localStorage";
-import { token } from "../../vite-env";
+import { Token } from "../../vite-env";
 import { useNavigate } from "react-router-dom";
-import { route } from "../../utils/routes";
 import Swal from "sweetalert2";
+import GlobalContext from "../../contexts/globalContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+
+  const { baseUrl } = useContext(GlobalContext) ?? {};
 
   const [isLoading, setIsLoading] = useState(false);
   const [loginInputs, setLoginInputs] = useState({
@@ -29,17 +31,16 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      const baseUrl = import.meta.env.VITE_API_URL;
       const {
         data: { access },
-      } = await axios.post<token>(`${baseUrl}/token`, loginInputs);
+      } = await axios.post<Token>(`${baseUrl}/token`, loginInputs);
 
       localStorage.setItem(
         key.userData,
         JSON.stringify({ token: access, username: loginInputs.username })
       );
 
-      navigate(route.folders);
+      navigate("/");
     } catch (err: unknown) {
       const { message, code } = err as AxiosError;
       setIsLoading(false);
