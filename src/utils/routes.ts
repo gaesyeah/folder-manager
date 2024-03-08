@@ -4,4 +4,9 @@ export const route = {
   params: {
     root: "root",
   },
+  api: {
+    directories: "directories",
+    directory: "directory",
+    token: "token",
+  },
 };

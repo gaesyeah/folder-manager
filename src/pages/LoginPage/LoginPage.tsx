@@ -4,8 +4,9 @@ import axios, { AxiosError } from "axios";
 import { key } from "../../utils/localStorage";
 import { Token } from "../../vite-env";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import GlobalContext from "../../contexts/globalContext";
+import { genericSwalError } from "../../utils/swalErrors";
+import { route } from "../../utils/routes";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const LoginPage = () => {
     try {
       const {
         data: { access },
-      } = await axios.post<Token>(`${baseUrl}/token`, loginInputs);
+      } = await axios.post<Token>(`${baseUrl}/${route.api.token}`, loginInputs);
 
       localStorage.setItem(
         key.userData,
@@ -44,12 +45,7 @@ const LoginPage = () => {
     } catch (err: unknown) {
       const { message, code } = err as AxiosError;
       setIsLoading(false);
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Ocorreu algum erro, tente novamente por favor",
-      });
-      console.log(message, code);
+      genericSwalError(message, code);
     }
   };
 

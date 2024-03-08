@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { route } from "../../../../utils/routes";
 import GlobalContext from "../../../../contexts/globalContext";
 import axios, { AxiosError } from "axios";
-import Swal from "sweetalert2";
+import { genericSwalError } from "../../../../utils/swalErrors";
 
 type SelectedFolderId = {
   selectedFolderId: FolderId;
@@ -77,17 +77,12 @@ const FolderComponent = ({
   const handleEnter: KeyboardEventHandler<HTMLInputElement> = async (e) => {
     if (e.key === "Enter") {
       try {
-        await axios.post(`${baseUrl}/directories`, folder, config);
+        await axios.post(`${baseUrl}/${route.api.directories}`, folder, config);
         if (!setFolders) return;
         setFolders(newFolders({ finishEdit: true }) ?? []);
       } catch (err: unknown) {
         const { message, code } = err as AxiosError;
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Ocorreu algum erro, tente novamente por favor",
-        });
-        console.log(message, code);
+        genericSwalError(message, code);
       }
     }
   };

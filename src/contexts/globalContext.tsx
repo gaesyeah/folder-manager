@@ -60,7 +60,7 @@ export const GlobalContextProvider: FC<{ children: ReactNode }> = ({
       setIsLoading(true);
       try {
         const { data } = await axios.get<FolderType[]>(
-          `${baseUrl}/directories`,
+          `${baseUrl}/${route.api.directories}`,
           config
         );
         setIsLoading(false);
