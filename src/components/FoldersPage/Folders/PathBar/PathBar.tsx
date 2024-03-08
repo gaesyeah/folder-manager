@@ -9,9 +9,7 @@ const PathBar = () => {
 
   return (
     <StyledPathBar>
-      <PathComponent
-        path={{ id: 999, name: route.params.root, parent: null, user: 999 }}
-      />
+      <PathComponent path={{ name: route.params.root }} />
       {paths?.map((path) => {
         return <PathComponent key={path.id} path={path} />;
       })}

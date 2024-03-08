@@ -5,10 +5,11 @@ export type Token = { refresh: string; access: string };
 export type UserData = { token: string; username: string };
 
 export type FolderType = {
-  id: number;
-  user: number;
+  id?: number;
+  user?: number;
   name: string;
-  parent: null | number;
+  parent?: null | number;
+  beingEdited?: boolean;
 };
 
 export type FolderId = number | undefined;

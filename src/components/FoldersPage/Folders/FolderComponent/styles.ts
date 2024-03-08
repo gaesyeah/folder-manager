@@ -4,13 +4,15 @@ import { color } from "../../../../utils/colors";
 import { MdModeEdit, MdDeleteForever } from "react-icons/md";
 
 export const StyledFolderComponent = styled.li<{ isSelected: boolean }>`
+  * {
+    font-size: 16px;
+    font-weight: 400;
+  }
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  font-weight: 400;
   position: relative;
   background: ${({ isSelected }) => (isSelected ? color.grayLight : "unset")};
   padding: 8px;
@@ -18,6 +20,12 @@ export const StyledFolderComponent = styled.li<{ isSelected: boolean }>`
     height: 20px;
     width: 50px;
     overflow-x: auto;
+    input {
+      color: ${color.black};
+      height: 20px;
+      width: auto;
+      border: none;
+    }
   }
 `;
 

@@ -8,6 +8,7 @@ import { key } from "../../../utils/localStorage";
 import { FolderId } from "../../../vite-env";
 import PathBar from "./PathBar/PathBar";
 import { route } from "../../../utils/routes";
+import AddFolder from "./AddFolder/AddFolder";
 
 const Folders = () => {
   const { folders, isLoading, fetchFolders, paths, setPaths } =
@@ -80,6 +81,7 @@ const Folders = () => {
               }
             })}
           </FoldersContainer>
+          <AddFolder />
         </>
       )}
     </StyledFolders>
