@@ -3,7 +3,7 @@ import { FaFolder } from "react-icons/fa6";
 import { color } from "../../../../utils/colors";
 import { MdModeEdit, MdDeleteForever } from "react-icons/md";
 
-export const StyledFolder = styled.li<{ isSelected: boolean }>`
+export const StyledFolderComponent = styled.li<{ isSelected: boolean }>`
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -15,6 +15,7 @@ export const StyledFolder = styled.li<{ isSelected: boolean }>`
   background: ${({ isSelected }) => (isSelected ? color.grayLight : "unset")};
   padding: 8px;
   div {
+    height: 20px;
     width: 50px;
     overflow-x: auto;
   }

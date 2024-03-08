@@ -13,10 +13,13 @@ import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { route } from "../utils/routes";
 
+type FolderState = FolderType[] | null;
 type GlobalContextType = {
-  folders: FolderType[] | null;
-  setFolders: Dispatch<SetStateAction<FolderType[] | null>>;
+  folders: FolderState;
+  setFolders: Dispatch<SetStateAction<FolderState>>;
   fetchFolders: () => Promise<void>;
+  paths: FolderState;
+  setPaths: Dispatch<SetStateAction<FolderState>>;
   userData: UserData | null;
   config: {
     headers: {
@@ -37,7 +40,8 @@ export const GlobalContextProvider: FC<{ children: ReactNode }> = ({
 }) => {
   const navigate = useNavigate();
 
-  const [folders, setFolders] = useState<FolderType[] | null>(null);
+  const [folders, setFolders] = useState<FolderState>(null);
+  const [paths, setPaths] = useState<FolderState>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const memoValues = useMemo(() => {
@@ -72,12 +76,14 @@ export const GlobalContextProvider: FC<{ children: ReactNode }> = ({
       folders,
       setFolders,
       fetchFolders,
+      paths,
+      setPaths,
       userData,
       config,
       isLoading,
       baseUrl,
     };
-  }, [folders, setFolders, navigate, isLoading]);
+  }, [folders, setFolders, navigate, isLoading, paths]);
 
   return (
     <GlobalContext.Provider value={memoValues}>

@@ -13,7 +13,10 @@ function App() {
           path={`${route.folders}/:identifier`}
           element={<FoldersPage />}
         />
-        <Route path="/" element={<Navigate to={`${route.folders}/root`} />} />
+        <Route
+          path="/"
+          element={<Navigate to={`${route.folders}/${route.params.root}`} />}
+        />
       </Routes>
     </GlobalContextProvider>
   );
