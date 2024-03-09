@@ -50,36 +50,29 @@ const FolderComponent = ({
     }
   };
 
-  const newFolders = ({
-    value,
-    finishEdit,
-  }: {
-    value?: string;
-    finishEdit?: boolean;
-  }) => {
-    return folders?.map((folder) => {
-      const { id: actualId, ...rest } = folder;
-      if (actualId === id) {
-        if (finishEdit) {
-          return { ...rest, beingEdited: false };
-        } else if (value) {
-          return { ...rest, name: value };
-        }
-      }
-      return folder;
-    });
-  };
   const handleEdit = (value: string) => {
     if (!setFolders || !folders) return;
-    setFolders(newFolders({ value }) ?? []);
+    setFolders(
+      folders?.map((folder) => {
+        const { id: actualId, ...rest } = folder;
+        if (actualId === id) {
+          return { ...rest, name: value };
+        }
+        return folder;
+      })
+    );
   };
 
   const handleEnter: KeyboardEventHandler<HTMLInputElement> = async (e) => {
     if (e.key === "Enter") {
       try {
-        await axios.post(`${baseUrl}/${route.api.directories}`, folder, config);
-        if (!setFolders) return;
-        setFolders(newFolders({ finishEdit: true }) ?? []);
+        const { data } = await axios.post(
+          `${baseUrl}/${route.api.directories}`,
+          folder,
+          config
+        );
+        if (!setFolders || !folders) return;
+        setFolders([...folders.filter(({ id }) => id !== undefined), data]);
       } catch (err: unknown) {
         const { message, code } = err as AxiosError;
         genericSwalError(message, code);

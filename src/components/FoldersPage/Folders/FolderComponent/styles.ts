@@ -25,6 +25,8 @@ export const StyledFolderComponent = styled.li<{ isSelected: boolean }>`
       height: 20px;
       width: auto;
       border: none;
+      margin-top: -4px;
+      margin-left: -2px;
     }
   }
 `;
