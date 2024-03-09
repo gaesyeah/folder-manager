@@ -6,6 +6,7 @@ export const StyledAddFolder = styled.div`
   border-radius: 100%;
   position: fixed;
   bottom: 10px;
+  z-index: 2;
   left: 10px;
   width: 50px;
   height: 50px;

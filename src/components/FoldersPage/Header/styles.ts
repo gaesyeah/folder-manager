@@ -7,6 +7,7 @@ export const StyledHeader = styled.header`
   @media (max-width: ${media.mobile}) {
     height: 60px;
   }
+  z-index: 1;
   height: 70px;
   width: 100%;
   background-color: ${color.blueBright};
