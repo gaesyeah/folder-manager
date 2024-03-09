@@ -2,7 +2,9 @@ import styled from "styled-components";
 import { FaFolderPlus } from "react-icons/fa6";
 import { color } from "../../../../utils/colors";
 
-export const StyledAddFolder = styled.div`
+export const StyledAddFolder = styled.div<{
+  isBeingEdited: boolean | undefined;
+}>`
   border-radius: 100%;
   position: fixed;
   bottom: 10px;
@@ -16,7 +18,7 @@ export const StyledAddFolder = styled.div`
   background: ${color.grayLight};
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-  cursor: pointer;
+  cursor: ${({ isBeingEdited }) => (isBeingEdited ? "not-allowed" : "pointer")};
 `;
 
 export const AddFolderIcon = styled(FaFolderPlus)`

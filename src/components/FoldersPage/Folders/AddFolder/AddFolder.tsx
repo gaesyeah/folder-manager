@@ -7,7 +7,9 @@ const AddFolder = () => {
   const { identifier } = useParams();
   const { setFolders, folders } = useContext(GlobalContext) ?? {};
 
+  const isBeingEdited = folders?.some(({ beingEdited }) => beingEdited);
   const handleClick = () => {
+    if (isBeingEdited) return;
     if (!setFolders || !folders) return;
 
     setFolders([
@@ -21,7 +23,7 @@ const AddFolder = () => {
   };
 
   return (
-    <StyledAddFolder onClick={handleClick}>
+    <StyledAddFolder isBeingEdited={isBeingEdited} onClick={handleClick}>
       <AddFolderIcon />
     </StyledAddFolder>
   );

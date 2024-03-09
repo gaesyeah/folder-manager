@@ -63,7 +63,9 @@ const FolderComponent = ({
     );
   };
 
-  const handleEnter: KeyboardEventHandler<HTMLInputElement> = async (e) => {
+  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = async (e) => {
+    if (!setFolders || !folders) return;
+
     if (e.key === "Enter") {
       try {
         const { data } = await axios.post(
@@ -71,12 +73,13 @@ const FolderComponent = ({
           folder,
           config
         );
-        if (!setFolders || !folders) return;
         setFolders([...folders.filter(({ id }) => id !== undefined), data]);
       } catch (err: unknown) {
         const { message, code } = err as AxiosError;
         genericSwalError(message, code);
       }
+    } else if (e.key === "Escape") {
+      setFolders(folders?.filter(({ beingEdited }) => !beingEdited));
     }
   };
 
@@ -97,7 +100,7 @@ const FolderComponent = ({
             autoFocus
             value={name}
             type="text"
-            onKeyDown={handleEnter}
+            onKeyDown={handleKeyDown}
           ></input>
         ) : (
           <p>{name}</p>
