@@ -84,7 +84,7 @@ const FolderComponent = ({
   };
 
   return (
-    <StyledFolderComponent isSelected={isSelected} onClick={handleClick}>
+    <StyledFolderComponent isSelected={isSelected}>
       {isSelected && (
         <>
           <DeleteFolderIcon />
@@ -92,7 +92,7 @@ const FolderComponent = ({
         </>
       )}
 
-      <FolderIcon />
+      <FolderIcon onClick={handleClick} />
       <div>
         {beingEdited ? (
           <input
