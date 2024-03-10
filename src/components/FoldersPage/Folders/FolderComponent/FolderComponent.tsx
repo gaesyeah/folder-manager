@@ -48,7 +48,7 @@ const FolderComponent = ({
 
     if (isSelected) {
       setClickCount(0);
-      navigate(`${route.folders}/${name}`);
+      navigate(`${route.folders}/${id}`);
       if (paths && setPaths) setPaths([...paths, folder]);
     }
   };

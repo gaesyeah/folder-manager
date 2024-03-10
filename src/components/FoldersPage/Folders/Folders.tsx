@@ -33,15 +33,14 @@ const Folders = () => {
       if (!paths || !setPaths) return;
 
       const actualPathIndex = paths.findIndex(
-        ({ name }) => name === identifier
+        ({ id }) => id === Number(identifier)
       );
 
       //se for -1 não foi encontrado, e se o identificador for "root" o path clicado foi o root
       if (actualPathIndex === -1 && identifier === route.params.root) {
         setPaths([]);
       } else {
-        const newPaths = paths.filter((_, i) => i <= actualPathIndex);
-        setPaths(newPaths);
+        setPaths(paths.filter((_, i) => i <= actualPathIndex));
       }
     };
     updatePaths();
@@ -67,10 +66,7 @@ const Folders = () => {
                 );
               }
 
-              const parentId = folders.find(
-                ({ name }) => name === identifier
-              )?.id;
-              if (parentId === parent) {
+              if (parent === Number(identifier)) {
                 return (
                   <FolderComponent
                     key={id}

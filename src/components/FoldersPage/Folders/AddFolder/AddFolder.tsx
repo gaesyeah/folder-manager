@@ -16,7 +16,8 @@ const AddFolder = () => {
       ...folders,
       {
         name: "",
-        parent: folders?.find(({ name }) => name === identifier)?.id ?? null,
+        parent:
+          folders?.find(({ id }) => id === Number(identifier))?.id ?? null,
         status: "creating",
       },
     ]);
