@@ -1,42 +1,28 @@
-import {
-  Dispatch,
-  KeyboardEventHandler,
-  SetStateAction,
-  useContext,
-  useState,
-  DragEvent,
-} from "react";
-import { FolderId, FolderType } from "../../../../vite-env";
-import {
-  DeleteFolderIcon,
-  EditFolderIcon,
-  FolderIcon,
-  StyledFolderComponent,
-} from "./styles";
+import { KeyboardEventHandler, useContext, useState, DragEvent } from "react";
+import { FolderType } from "../../../../vite-env";
+import { FolderIcon, StyledFolderComponent } from "./styles";
 import { useNavigate } from "react-router-dom";
 import { route } from "../../../../utils/routes";
 import GlobalContext from "../../../../contexts/globalContext";
 import axios, { AxiosError } from "axios";
 import { genericSwalError } from "../../../../utils/swalErrors";
 import { dragProperty } from "../../../../utils/dragProperty";
+import EditWrapper from "./EditWrapper";
 
-type SelectedFolderId = {
-  selectedFolderId: FolderId;
-  setSelectedFolderId: Dispatch<SetStateAction<FolderId>>;
-};
-
-const FolderComponent = ({
-  folder,
-  selectedFolderId: { selectedFolderId, setSelectedFolderId },
-}: {
-  folder: FolderType;
-  selectedFolderId: SelectedFolderId;
-}) => {
+const FolderComponent = ({ folder }: { folder: FolderType }) => {
   const { id, name, status } = folder;
   const [nameBackup] = useState(name);
 
-  const { setPaths, paths, folders, setFolders, baseUrl, config } =
-    useContext(GlobalContext) ?? {};
+  const {
+    setPaths,
+    paths,
+    folders,
+    setFolders,
+    baseUrl,
+    config,
+    selectedFolderId,
+    setSelectedFolderId,
+  } = useContext(GlobalContext) ?? {};
 
   const navigate = useNavigate();
   const [clickCount, setClickCount] = useState<number>(0);
@@ -47,6 +33,8 @@ const FolderComponent = ({
     (status === "default" || !status);
 
   const handleClick = () => {
+    if (!setSelectedFolderId) return;
+
     setSelectedFolderId(id);
     setClickCount((previous) => previous + 1);
 
@@ -125,39 +113,9 @@ const FolderComponent = ({
       } else if (status === "editing") {
         stopEditing(true);
       }
+      if (!setSelectedFolderId) return;
       setSelectedFolderId(undefined);
     }
-  };
-
-  const handleDelete = async () => {
-    if (isFoldersNotLoaded) return;
-
-    try {
-      await axios.delete<FolderType>(
-        `${baseUrl}/${route.api.directory}/${id}`,
-        config
-      );
-      //remove a pasta selecionada que acabou de ser deletada
-      setFolders(folders.filter(({ id: actualId }) => actualId !== id));
-      setSelectedFolderId(undefined);
-    } catch (err: unknown) {
-      const { message, code } = err as AxiosError;
-      genericSwalError(message, code);
-    }
-  };
-
-  const handleEdit = () => {
-    if (isFoldersNotLoaded) return;
-
-    //muda o status de default para "editing", permitindo assim a edição do mesmo
-    setFolders(
-      folders.map((folder) => {
-        if (folder.id === selectedFolderId) {
-          return { ...folder, status: "editing" };
-        }
-        return folder;
-      })
-    );
   };
 
   const handleOnDrag = (e: DragEvent<HTMLLIElement>) => {
@@ -171,12 +129,7 @@ const FolderComponent = ({
       draggable
       onDragStart={(e) => handleOnDrag(e)}
     >
-      {isSelected && (
-        <>
-          <DeleteFolderIcon onClick={handleDelete} />
-          <EditFolderIcon onClick={handleEdit} />
-        </>
-      )}
+      {isSelected && <EditWrapper folder={folder} />}
 
       <FolderIcon onClick={handleClick} />
       <div>

@@ -1,21 +1,18 @@
 import { useParams } from "react-router-dom";
 import { AddFolderIcon, StyledAddFolder } from "./styles";
-import { Dispatch, SetStateAction, useContext } from "react";
+import { useContext } from "react";
 import GlobalContext from "../../../../contexts/globalContext";
-import { FolderId } from "../../../../vite-env";
 
-const AddFolder = ({
-  setSelectedFolderId,
-}: {
-  setSelectedFolderId: Dispatch<SetStateAction<FolderId>>;
-}) => {
+const AddFolder = () => {
   const { identifier } = useParams();
-  const { setFolders, folders } = useContext(GlobalContext) ?? {};
+  const { setFolders, folders, setSelectedFolderId } =
+    useContext(GlobalContext) ?? {};
 
   const isBeingCreated = folders?.some(({ status }) => status === "creating");
   const handleClick = () => {
     if (isBeingCreated) return;
     if (!setFolders || !folders) return;
+    if (!setSelectedFolderId) return;
 
     setSelectedFolderId(undefined);
     //adiciona uma pasta nova temporária com status de "creating" para depois ser criada

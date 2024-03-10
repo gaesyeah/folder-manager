@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { FolderType, UserData } from "../vite-env";
+import { FolderId, FolderType, UserData } from "../vite-env";
 import { key } from "../utils/localStorage";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,8 @@ type GlobalContextType = {
   folders: FolderState;
   setFolders: Dispatch<SetStateAction<FolderState>>;
   fetchFolders: () => Promise<void>;
+  selectedFolderId: FolderId;
+  setSelectedFolderId: Dispatch<SetStateAction<FolderId>>;
   paths: FolderState;
   setPaths: Dispatch<SetStateAction<FolderState>>;
   userData: UserData | null;
@@ -41,6 +43,7 @@ export const GlobalContextProvider: FC<{ children: ReactNode }> = ({
   const navigate = useNavigate();
 
   const [folders, setFolders] = useState<FolderState>(null);
+  const [selectedFolderId, setSelectedFolderId] = useState<FolderId>(undefined);
   const [paths, setPaths] = useState<FolderState>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -76,6 +79,8 @@ export const GlobalContextProvider: FC<{ children: ReactNode }> = ({
       folders,
       setFolders,
       fetchFolders,
+      selectedFolderId,
+      setSelectedFolderId,
       paths,
       setPaths,
       userData,
@@ -83,7 +88,7 @@ export const GlobalContextProvider: FC<{ children: ReactNode }> = ({
       isLoading,
       baseUrl,
     };
-  }, [folders, setFolders, navigate, isLoading, paths]);
+  }, [folders, setFolders, navigate, isLoading, paths, selectedFolderId]);
 
   return (
     <GlobalContext.Provider value={memoValues}>

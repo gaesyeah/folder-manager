@@ -1,11 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { FoldersContainer, StyledFolders } from "./styles";
 import { useNavigate, useParams } from "react-router-dom";
 import GlobalContext from "../../../contexts/globalContext";
 import Loading from "../../Loading/Loading";
 import FolderComponent from "./FolderComponent/FolderComponent";
 import { key } from "../../../utils/localStorage";
-import { FolderId } from "../../../vite-env";
 import PathBar from "./PathBar/PathBar";
 import { route } from "../../../utils/routes";
 import AddFolder from "./AddFolder/AddFolder";
@@ -13,7 +12,6 @@ import AddFolder from "./AddFolder/AddFolder";
 const Folders = () => {
   const { folders, isLoading, fetchFolders, paths, setPaths } =
     useContext(GlobalContext) ?? {};
-  const [selectedFolderId, setSelectedFolderId] = useState<FolderId>(undefined);
 
   const navigate = useNavigate();
   const { identifier } = useParams();
@@ -60,27 +58,15 @@ const Folders = () => {
               const { id, parent } = folder;
               //renderiza somente as pastas que não tem pai
               if (identifier === route.params.root && parent === null) {
-                return (
-                  <FolderComponent
-                    key={id}
-                    folder={folder}
-                    selectedFolderId={{ selectedFolderId, setSelectedFolderId }}
-                  />
-                );
+                return <FolderComponent key={id} folder={folder} />;
               }
               //renderiza todas as pastas que tem o pai igual ao identificador
               if (parent === Number(identifier)) {
-                return (
-                  <FolderComponent
-                    key={id}
-                    folder={folder}
-                    selectedFolderId={{ selectedFolderId, setSelectedFolderId }}
-                  />
-                );
+                return <FolderComponent key={id} folder={folder} />;
               }
             })}
           </FoldersContainer>
-          <AddFolder setSelectedFolderId={setSelectedFolderId} />
+          <AddFolder />
         </>
       )}
     </StyledFolders>
