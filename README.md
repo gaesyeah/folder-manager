@@ -15,8 +15,9 @@ Aplicação de front-end para o desafio técnico da vaga de front-end react jún
 
 O usuário precisa primeiro logar, com uma conta previamente criada e disponibilizada pela equipe da 7Dev, após isso ele será redirecionado para a raiz dos diretórios.
 
--É possível selecionar uma pasta clicando na mesma
--após selecionada será possível editar seu nome("Enter" para confirmar a alteração, ou "Esc" para cancelar) ou apaga-la. Clicar uma segunda vez na pasta selecionada muda o diretório atual
+-É possível selecionar uma pasta clicando na mesma.
+
+-após selecionada será possível editar seu nome("Enter" para confirmar a alteração, ou "Esc" para cancelar) ou apaga-la. Clicar uma segunda vez na pasta selecionada muda o diretório atual.
 
 -clicar no ícone de adicionar pasta que se encontra no canto inferior esquerdo vai adicionar uma nova pasta no diretório atual, onde regras similares à edição serão aplicadas.
 
@@ -24,7 +25,7 @@ O usuário precisa primeiro logar, com uma conta previamente criada e disponibil
 
 -É possível também fazer "drag'n drop" com as pastas, é só pressionar uma pasta e arrasta-la com o mouse para um dos caminhos/diretórios, assim a mesma será movida para o diretório escolhido.
 
--O usuário também pode deslogar clicando na seta que se encontra ao lado de seu nome, no header
+-O usuário também pode deslogar clicando na seta que se encontra ao lado de seu nome, no header.
 
 ## Tecnologias utilizadas
 
