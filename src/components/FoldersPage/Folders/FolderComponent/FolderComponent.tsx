@@ -53,13 +53,14 @@ const FolderComponent = ({
     }
   };
 
+  const isFoldersNotLoaded = !setFolders || !folders;
+
   const handleOnChange = (value: string) => {
-    if (!setFolders || !folders) return;
+    if (isFoldersNotLoaded) return;
     setFolders(
       folders?.map((folder) => {
-        const { id: actualId, ...rest } = folder;
-        if (actualId === id) {
-          return { ...rest, name: value };
+        if (folder.id === id) {
+          return { ...folder, name: value };
         }
         return folder;
       })
@@ -67,16 +68,36 @@ const FolderComponent = ({
   };
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = async (e) => {
-    if (!setFolders || !folders) return;
+    if (isFoldersNotLoaded) return;
 
     if (e.key === "Enter") {
       try {
-        const { data } = await axios.post(
-          `${baseUrl}/${route.api.directories}`,
-          folder,
-          config
-        );
-        setFolders([...folders.filter(({ id }) => id !== undefined), data]);
+        if (status === "creating") {
+          const { data } = await axios.post(
+            `${baseUrl}/${route.api.directories}`,
+            folder,
+            config
+          );
+          setFolders([
+            ...folders.filter(({ status }) => !status || status === "default"),
+            data,
+          ]);
+        } else if (status === "editing") {
+          await axios.patch(
+            `${baseUrl}/${route.api.directory}/${id}`,
+            folder,
+            config
+          );
+          setFolders(
+            folders.map((folder) => {
+              if (folder.id === selectedFolderId) {
+                return { ...folder, status: "default" };
+              } else {
+                return folder;
+              }
+            })
+          );
+        }
       } catch (err: unknown) {
         const { message, code } = err as AxiosError;
         genericSwalError(message, code);
@@ -87,15 +108,28 @@ const FolderComponent = ({
   };
 
   const handleDelete = async () => {
-    if (!setFolders || !folders) return;
+    if (isFoldersNotLoaded) return;
 
     try {
       await axios.delete(`${baseUrl}/${route.api.directory}/${id}`, config);
-      setFolders(folders?.filter(({ id: selectedId }) => selectedId !== id));
+      setFolders(folders?.filter(({ id: actualId }) => actualId !== id));
     } catch (err: unknown) {
       const { message, code } = err as AxiosError;
       genericSwalError(message, code);
     }
+  };
+
+  const handleEdit = () => {
+    if (isFoldersNotLoaded) return;
+
+    setFolders(
+      folders.map((folder) => {
+        if (folder.id === selectedFolderId) {
+          return { ...folder, status: "editing" };
+        }
+        return folder;
+      })
+    );
   };
 
   return (
@@ -103,7 +137,7 @@ const FolderComponent = ({
       {isSelected && (
         <>
           <DeleteFolderIcon onClick={handleDelete} />
-          <EditFolderIcon />
+          <EditFolderIcon onClick={handleEdit} />
         </>
       )}
 
