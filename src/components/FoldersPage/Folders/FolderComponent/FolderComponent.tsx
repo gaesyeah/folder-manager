@@ -132,7 +132,7 @@ const FolderComponent = ({
         `${baseUrl}/${route.api.directory}/${id}`,
         config
       );
-      //remove a pasta selecionada que acabou de ser editada
+      //remove a pasta selecionada que acabou de ser deletada
       setFolders(folders.filter(({ id: actualId }) => actualId !== id));
       setSelectedFolderId(undefined);
     } catch (err: unknown) {
@@ -144,6 +144,7 @@ const FolderComponent = ({
   const handleEdit = () => {
     if (isFoldersNotLoaded) return;
 
+    //muda o status de default para "editing", permitindo assim a edição do mesmo
     setFolders(
       folders.map((folder) => {
         if (folder.id === selectedFolderId) {
