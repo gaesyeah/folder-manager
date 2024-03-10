@@ -1,4 +1,4 @@
-# Folder Manager?
+# Folder Manager
 
 Aplicação de front-end para o desafio técnico da vaga de front-end react júnior da 7Dev. Nesta aplicação, é possível logar, criar pastas, subpastas, navegar, renomeá-las e trocar seu diretório pai.
 
