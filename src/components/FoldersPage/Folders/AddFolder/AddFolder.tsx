@@ -7,23 +7,23 @@ const AddFolder = () => {
   const { identifier } = useParams();
   const { setFolders, folders } = useContext(GlobalContext) ?? {};
 
-  const isBeingEdited = folders?.some(({ beingEdited }) => beingEdited);
+  const isBeingCreated = folders?.some(({ status }) => status === "creating");
   const handleClick = () => {
-    if (isBeingEdited) return;
+    if (isBeingCreated) return;
     if (!setFolders || !folders) return;
 
     setFolders([
       ...folders,
       {
         name: "",
-        parent: folders?.find(({ name }) => name === identifier)?.id,
-        beingEdited: true,
+        parent: folders?.find(({ name }) => name === identifier)?.id ?? null,
+        status: "creating",
       },
     ]);
   };
 
   return (
-    <StyledAddFolder isBeingEdited={isBeingEdited} onClick={handleClick}>
+    <StyledAddFolder isBeingCreated={isBeingCreated} onClick={handleClick}>
       <AddFolderIcon />
     </StyledAddFolder>
   );

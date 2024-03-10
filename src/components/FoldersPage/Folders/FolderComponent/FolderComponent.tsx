@@ -30,7 +30,7 @@ const FolderComponent = ({
   folder: FolderType;
   selectedFolderId: SelectedFolderId;
 }) => {
-  const { id, name, beingEdited } = folder;
+  const { id, name, status } = folder;
 
   const { setPaths, paths, folders, setFolders, baseUrl, config } =
     useContext(GlobalContext) ?? {};
@@ -38,7 +38,10 @@ const FolderComponent = ({
   const navigate = useNavigate();
   const [clickCount, setClickCount] = useState<number>(0);
 
-  const isSelected = clickCount > 0 && selectedFolderId === id && !beingEdited;
+  const isSelected =
+    clickCount > 0 &&
+    selectedFolderId === id &&
+    (status === "default" || !status);
   const handleClick = () => {
     setSelectedFolderId(id);
     setClickCount((previous) => previous + 1);
@@ -50,7 +53,7 @@ const FolderComponent = ({
     }
   };
 
-  const handleEdit = (value: string) => {
+  const handleOnChange = (value: string) => {
     if (!setFolders || !folders) return;
     setFolders(
       folders?.map((folder) => {
@@ -79,7 +82,7 @@ const FolderComponent = ({
         genericSwalError(message, code);
       }
     } else if (e.key === "Escape") {
-      setFolders(folders?.filter(({ beingEdited }) => !beingEdited));
+      setFolders(folders?.filter(({ status }) => status === "creating"));
     }
   };
 
@@ -94,9 +97,9 @@ const FolderComponent = ({
 
       <FolderIcon onClick={handleClick} />
       <div>
-        {beingEdited ? (
+        {status && status !== "default" ? (
           <input
-            onChange={(e) => handleEdit(e.target.value)}
+            onChange={(e) => handleOnChange(e.target.value)}
             autoFocus
             value={name}
             type="text"

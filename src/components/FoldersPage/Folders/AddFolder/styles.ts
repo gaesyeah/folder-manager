@@ -3,7 +3,7 @@ import { FaFolderPlus } from "react-icons/fa6";
 import { color } from "../../../../utils/colors";
 
 export const StyledAddFolder = styled.div<{
-  isBeingEdited: boolean | undefined;
+  isBeingCreated: boolean | undefined;
 }>`
   border-radius: 100%;
   position: fixed;
@@ -18,7 +18,8 @@ export const StyledAddFolder = styled.div<{
   background: ${color.grayLight};
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-  cursor: ${({ isBeingEdited }) => (isBeingEdited ? "not-allowed" : "pointer")};
+  cursor: ${({ isBeingCreated }) =>
+    isBeingCreated ? "not-allowed" : "pointer"};
 `;
 
 export const AddFolderIcon = styled(FaFolderPlus)`

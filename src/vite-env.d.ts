@@ -9,7 +9,7 @@ export type FolderType = {
   user?: number;
   name: string;
   parent?: null | number;
-  beingEdited?: boolean;
+  status?: "editing" | "creating" | "default";
 };
 
 export type FolderId = number | undefined;
