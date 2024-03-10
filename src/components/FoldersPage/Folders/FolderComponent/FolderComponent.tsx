@@ -33,6 +33,7 @@ const FolderComponent = ({
   selectedFolderId: SelectedFolderId;
 }) => {
   const { id, name, status } = folder;
+  const [nameBackup] = useState(name);
 
   const { setPaths, paths, folders, setFolders, baseUrl, config } =
     useContext(GlobalContext) ?? {};
@@ -76,11 +77,15 @@ const FolderComponent = ({
     if (isFoldersNotLoaded) return;
 
     //função que altera o status de editing para default
-    const stopEditing = () => {
+    const stopEditing = (isEsc?: boolean) => {
       setFolders(
         folders.map((folder) => {
           if (folder.id === selectedFolderId) {
-            return { ...folder, status: "default" };
+            return {
+              ...folder,
+              status: "default",
+              name: isEsc ? nameBackup : name,
+            };
           } else {
             return folder;
           }
@@ -105,7 +110,7 @@ const FolderComponent = ({
         } else if (status === "editing") {
           await axios.patch<FolderType>(
             `${baseUrl}/${route.api.directory}/${id}`,
-            folder,
+            { name },
             config
           );
           stopEditing();
@@ -118,7 +123,7 @@ const FolderComponent = ({
       if (status === "creating") {
         setFolders(defaultFolders);
       } else if (status === "editing") {
-        stopEditing();
+        stopEditing(true);
       }
       setSelectedFolderId(undefined);
     }
