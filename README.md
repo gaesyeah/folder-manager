@@ -9,7 +9,7 @@ Aplicação de front-end para o desafio técnico da vaga de front-end react jún
 
 ## Deploy
 
-<a href="https://folder-manager-pink.vercel.app">https://folder-manager-pink.vercel.app</a>
+<a href="https://folder-manager-ix2x.vercel.app">https://folder-manager-ix2x.vercel.app</a>
 
 ## Como funciona?
 
