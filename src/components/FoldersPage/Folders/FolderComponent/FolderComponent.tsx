@@ -86,11 +86,23 @@ const FolderComponent = ({
     }
   };
 
+  const handleDelete = async () => {
+    if (!setFolders || !folders) return;
+
+    try {
+      await axios.delete(`${baseUrl}/${route.api.directory}/${id}`, config);
+      setFolders(folders?.filter(({ id: selectedId }) => selectedId !== id));
+    } catch (err: unknown) {
+      const { message, code } = err as AxiosError;
+      genericSwalError(message, code);
+    }
+  };
+
   return (
     <StyledFolderComponent isSelected={isSelected}>
       {isSelected && (
         <>
-          <DeleteFolderIcon />
+          <DeleteFolderIcon onClick={handleDelete} />
           <EditFolderIcon />
         </>
       )}
