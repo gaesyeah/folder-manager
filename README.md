@@ -24,6 +24,8 @@ O usuário precisa primeiro logar, com uma conta previamente criada e disponibil
 
 -É possível também fazer "drag'n drop" com as pastas, é só pressionar uma pasta e arrasta-la com o mouse para um dos caminhos/diretórios, assim a mesma será movida para o diretório escolhido.
 
+-O usuário também pode deslogar clicando na seta que se encontra ao lado de seu nome, no header
+
 ## Tecnologias utilizadas
 
 Para este projeto, foram as principais utilizadas:
