@@ -70,6 +70,22 @@ const FolderComponent = ({
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = async (e) => {
     if (isFoldersNotLoaded) return;
 
+    const stopEditing = () => {
+      setFolders(
+        folders.map((folder) => {
+          if (folder.id === selectedFolderId) {
+            return { ...folder, status: "default" };
+          } else {
+            return folder;
+          }
+        })
+      );
+    };
+
+    const defaultFolders = folders.filter(
+      ({ status }) => !status || status === "default"
+    );
+
     if (e.key === "Enter") {
       try {
         if (status === "creating") {
@@ -78,32 +94,25 @@ const FolderComponent = ({
             folder,
             config
           );
-          setFolders([
-            ...folders.filter(({ status }) => !status || status === "default"),
-            data,
-          ]);
+          setFolders([...defaultFolders, data]);
         } else if (status === "editing") {
           await axios.patch(
             `${baseUrl}/${route.api.directory}/${id}`,
             folder,
             config
           );
-          setFolders(
-            folders.map((folder) => {
-              if (folder.id === selectedFolderId) {
-                return { ...folder, status: "default" };
-              } else {
-                return folder;
-              }
-            })
-          );
+          stopEditing();
         }
       } catch (err: unknown) {
         const { message, code } = err as AxiosError;
         genericSwalError(message, code);
       }
     } else if (e.key === "Escape") {
-      setFolders(folders?.filter(({ status }) => status === "creating"));
+      if (status === "creating") {
+        setFolders(defaultFolders);
+      } else if (status === "editing") {
+        stopEditing();
+      }
     }
   };
 
