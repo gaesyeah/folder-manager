@@ -80,7 +80,7 @@ const Folders = () => {
               }
             })}
           </FoldersContainer>
-          <AddFolder />
+          <AddFolder setSelectedFolderId={setSelectedFolderId} />
         </>
       )}
     </StyledFolders>
