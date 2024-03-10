@@ -29,6 +29,7 @@ const Folders = () => {
   }, []);
 
   useEffect(() => {
+    //função para atualizar o caminho atual do diretório, e ela é executada sempre que o diretório atual é alterado(identifier)
     const updatePaths = () => {
       if (!paths || !setPaths) return;
 
@@ -40,6 +41,7 @@ const Folders = () => {
       if (actualPathIndex === -1 && identifier === route.params.root) {
         setPaths([]);
       } else {
+        //remove todos os paths que estão depois do clicado
         setPaths(paths.filter((_, i) => i <= actualPathIndex));
       }
     };
@@ -56,6 +58,7 @@ const Folders = () => {
           <FoldersContainer>
             {folders?.map((folder) => {
               const { id, parent } = folder;
+              //renderiza somente as pastas que não tem pai
               if (identifier === route.params.root && parent === null) {
                 return (
                   <FolderComponent
@@ -65,7 +68,7 @@ const Folders = () => {
                   />
                 );
               }
-
+              //renderiza todas as pastas que tem o pai igual ao identificador
               if (parent === Number(identifier)) {
                 return (
                   <FolderComponent

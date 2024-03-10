@@ -44,12 +44,14 @@ const FolderComponent = ({
     clickCount > 0 &&
     selectedFolderId === id &&
     (status === "default" || !status);
+
   const handleClick = () => {
     setSelectedFolderId(id);
     setClickCount((previous) => previous + 1);
 
     if (isSelected) {
       setClickCount(0);
+      //navega para o diretório clicado e a adiciona no path atual
       navigate(`${route.folders}/${id}`);
       if (paths && setPaths) setPaths([...paths, folder]);
     }
@@ -60,8 +62,9 @@ const FolderComponent = ({
   const handleOnChange = (value: string) => {
     if (isFoldersNotLoaded) return;
     setFolders(
-      folders?.map((folder) => {
+      folders.map((folder) => {
         if (folder.id === id) {
+          //atualiza o nome da pasta com o valor vindo do event do onChange
           return { ...folder, name: value };
         }
         return folder;
@@ -72,6 +75,7 @@ const FolderComponent = ({
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = async (e) => {
     if (isFoldersNotLoaded) return;
 
+    //função que altera o status de editing para default
     const stopEditing = () => {
       setFolders(
         folders.map((folder) => {
@@ -84,6 +88,7 @@ const FolderComponent = ({
       );
     };
 
+    //retorna todas as pastas que não estão sendo editadas ou criadas
     const defaultFolders = folders.filter(
       ({ status }) => !status || status === "default"
     );
@@ -115,6 +120,7 @@ const FolderComponent = ({
       } else if (status === "editing") {
         stopEditing();
       }
+      setSelectedFolderId(undefined);
     }
   };
 
@@ -126,7 +132,9 @@ const FolderComponent = ({
         `${baseUrl}/${route.api.directory}/${id}`,
         config
       );
-      setFolders(folders?.filter(({ id: actualId }) => actualId !== id));
+      //remove a pasta selecionada que acabou de ser editada
+      setFolders(folders.filter(({ id: actualId }) => actualId !== id));
+      setSelectedFolderId(undefined);
     } catch (err: unknown) {
       const { message, code } = err as AxiosError;
       genericSwalError(message, code);

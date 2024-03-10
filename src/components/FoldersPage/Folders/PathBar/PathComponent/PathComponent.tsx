@@ -26,6 +26,7 @@ const PathComponent = ({ path: { name, id } }: { path: FolderType }) => {
         },
         config
       );
+      //remove a pasta que foi alterada e a adiciona novamente em seu diretório atualizado
       setFolders([...folders.filter(({ id }) => id !== childrenId), data]);
     } catch (err: unknown) {
       const { message, code } = err as AxiosError;
