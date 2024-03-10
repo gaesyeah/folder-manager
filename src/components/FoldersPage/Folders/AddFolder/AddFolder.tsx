@@ -12,6 +12,7 @@ const AddFolder = () => {
     if (isBeingCreated) return;
     if (!setFolders || !folders) return;
 
+    //adiciona uma pasta nova temporária com status de "creating" para depois ser criada
     setFolders([
       ...folders,
       {
