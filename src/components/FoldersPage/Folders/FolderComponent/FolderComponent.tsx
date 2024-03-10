@@ -4,6 +4,7 @@ import {
   SetStateAction,
   useContext,
   useState,
+  DragEvent,
 } from "react";
 import { FolderId, FolderType } from "../../../../vite-env";
 import {
@@ -17,6 +18,7 @@ import { route } from "../../../../utils/routes";
 import GlobalContext from "../../../../contexts/globalContext";
 import axios, { AxiosError } from "axios";
 import { genericSwalError } from "../../../../utils/swalErrors";
+import { dragProperty } from "../../../../utils/dragProperty";
 
 type SelectedFolderId = {
   selectedFolderId: FolderId;
@@ -89,14 +91,14 @@ const FolderComponent = ({
     if (e.key === "Enter") {
       try {
         if (status === "creating") {
-          const { data } = await axios.post(
+          const { data } = await axios.post<FolderType>(
             `${baseUrl}/${route.api.directories}`,
             folder,
             config
           );
           setFolders([...defaultFolders, data]);
         } else if (status === "editing") {
-          await axios.patch(
+          await axios.patch<FolderType>(
             `${baseUrl}/${route.api.directory}/${id}`,
             folder,
             config
@@ -120,7 +122,10 @@ const FolderComponent = ({
     if (isFoldersNotLoaded) return;
 
     try {
-      await axios.delete(`${baseUrl}/${route.api.directory}/${id}`, config);
+      await axios.delete<FolderType>(
+        `${baseUrl}/${route.api.directory}/${id}`,
+        config
+      );
       setFolders(folders?.filter(({ id: actualId }) => actualId !== id));
     } catch (err: unknown) {
       const { message, code } = err as AxiosError;
@@ -141,8 +146,17 @@ const FolderComponent = ({
     );
   };
 
+  const handleOnDrag = (e: DragEvent<HTMLLIElement>) => {
+    if (!id) return;
+    e.dataTransfer.setData(dragProperty.childrenId, id.toString());
+  };
+
   return (
-    <StyledFolderComponent isSelected={isSelected}>
+    <StyledFolderComponent
+      isSelected={isSelected}
+      draggable
+      onDragStart={(e) => handleOnDrag(e)}
+    >
       {isSelected && (
         <>
           <DeleteFolderIcon onClick={handleDelete} />
