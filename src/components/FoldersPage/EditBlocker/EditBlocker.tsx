@@ -17,23 +17,26 @@ const EditBlocker = () => {
     if (!setFolders || !folders) return;
 
     setFolders(
-      folders.map((folder) => {
-        if (folder.status === "editing") {
-          return {
-            ...folder,
-            status: "default",
-            name: nameBackup,
-          };
-        }
-        return folder;
-      })
+      folders
+        .filter(({ status }) => status !== "creating")
+        .map((folder) => {
+          const { status } = folder;
+          if (status === "editing") {
+            return {
+              ...folder,
+              status: "default",
+              name: nameBackup,
+            };
+          }
+          return folder;
+        })
     );
   };
 
   //renderiza uma div para ficar por cima de tudo e não permitir clicar em outras pastas
   return (
     <>
-      {folders?.some(({ status }) => status === "editing") && (
+      {folders?.some(({ status }) => status && status !== "default") && (
         <StyledEditBlocker onClick={stopEditing}></StyledEditBlocker>
       )}
     </>
