@@ -27,10 +27,7 @@ const FolderComponent = ({ folder }: { folder: FolderType }) => {
   const navigate = useNavigate();
   const [clickCount, setClickCount] = useState<number>(0);
 
-  const isSelected =
-    clickCount > 0 &&
-    selectedFolderId === id &&
-    (status === "default" || !status);
+  const isSelected = clickCount > 0 && selectedFolderId === id;
 
   const handleClick = () => {
     if (!setSelectedFolderId) return;

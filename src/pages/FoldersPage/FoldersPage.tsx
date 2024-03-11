@@ -5,6 +5,7 @@ import { route } from "../../utils/routes";
 import { StyledFoldersPage } from "./styles";
 import Header from "../../components/FoldersPage/Header/Header";
 import Folders from "../../components/FoldersPage/Folders/Folders";
+import EditBlocker from "../../components/FoldersPage/EditBlocker/EditBlocker";
 
 const FoldersPage = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const FoldersPage = () => {
     <StyledFoldersPage>
       <Header />
       <Folders />
+      <EditBlocker />
     </StyledFoldersPage>
   );
 };

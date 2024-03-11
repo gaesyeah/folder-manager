@@ -17,13 +17,17 @@ export const StyledFolderComponent = styled.li<{ isSelected: boolean }>`
   background: ${({ isSelected }) => (isSelected ? color.grayLight : "unset")};
   padding: 8px;
   div {
-    height: 20px;
+    max-height: 16px;
     width: 50px;
-    overflow-x: auto;
+    overflow: hidden;
+    p {
+      word-break: break-all;
+      max-height: 20px;
+    }
     input {
       color: ${color.black};
       height: 20px;
-      width: auto;
+      width: 60px;
       border: none;
       margin-top: -4px;
       margin-left: -2px;
