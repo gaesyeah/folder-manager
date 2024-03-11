@@ -33,7 +33,7 @@ const EditBlocker = () => {
   //renderiza uma div para ficar por cima de tudo e não permitir clicar em outras pastas
   return (
     <>
-      {folders?.find(({ status }) => status === "editing") && (
+      {folders?.some(({ status }) => status === "editing") && (
         <StyledEditBlocker onClick={stopEditing}></StyledEditBlocker>
       )}
     </>
